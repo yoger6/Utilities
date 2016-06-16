@@ -75,7 +75,7 @@ namespace Utilities
     /// <summary>
     /// Allows switching on Type, allows to return value.
     /// </summary>
-    public class TypeSwitch<TResult>
+    public partial class TypeSwitch<TResult>
     {
         private readonly Dictionary<Type, Func<TResult>> _cases;
         private readonly Func<TResult> _fallback;
