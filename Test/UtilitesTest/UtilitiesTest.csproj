@@ -55,7 +55,7 @@
     <Compile Include="TypeSwitchWithReturnTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TypeSwitch\Utilities.csproj">
+    <ProjectReference Include="..\..\Code\Utilites\Utilities.csproj">
       <Project>{7B5D7F5E-8BA8-4B2B-8447-0D979920C179}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
