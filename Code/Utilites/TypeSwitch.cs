@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Utilities
 {
     /// <summary>
-    /// Allows switching on Type, doesn't allow returning value.
+    ///     Allows switching on Type, doesn't allow returning value.
     /// </summary>
     public class TypeSwitch
     {
@@ -12,7 +12,7 @@ namespace Utilities
         private readonly Action _fallback;
 
         /// <summary>
-        /// Default constructor without fallback, meaning that it will throw exceptions in unexpected situations.
+        ///     Default constructor without fallback, meaning that it will throw exceptions in unexpected situations.
         /// </summary>
         public TypeSwitch()
         {
@@ -20,7 +20,7 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Constructor with fallback
+        ///     Constructor with fallback
         /// </summary>
         /// <param name="fallback">Method that will be invoked instead of throwing exceptions. Equivalent of default case.</param>
         public TypeSwitch( Action fallback )
@@ -30,7 +30,7 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Registers method to be invoked when type is mached.
+        ///     Registers method to be invoked when type is mached.
         /// </summary>
         /// <param name="type">Type to handle</param>
         /// <param name="action">Method that will be invoked for that type</param>
@@ -40,7 +40,7 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Invokes method set for matching type.
+        ///     Invokes method set for matching type.
         /// </summary>
         /// <param name="type">Type to match against cases</param>
         public void Execute( Type type )
@@ -73,15 +73,15 @@ namespace Utilities
     }
 
     /// <summary>
-    /// Allows switching on Type, allows to return value.
+    ///     Allows switching on Type, allows to return value.
     /// </summary>
-    public partial class TypeSwitch<TResult>
+    public class TypeSwitch<TResult>
     {
         private readonly Dictionary<Type, Func<TResult>> _cases;
         private readonly Func<TResult> _fallback;
 
         /// <summary>
-        /// Default constructor without fallback, meaning that it will throw exceptions in unexpected situations.
+        ///     Default constructor without fallback, meaning that it will throw exceptions in unexpected situations.
         /// </summary>
         public TypeSwitch()
         {
@@ -89,7 +89,7 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Constructor with fallback
+        ///     Constructor with fallback
         /// </summary>
         /// <param name="fallback">Method that will be invoked instead of throwing exceptions. Equivalent of default case.</param>
         public TypeSwitch( Func<TResult> fallback )
@@ -99,7 +99,7 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Registers method to be invoked when type is mached.
+        ///     Registers method to be invoked when type is mached.
         /// </summary>
         /// <param name="type">Type to handle</param>
         /// <param name="action">Method that will be invoked for that type</param>
@@ -114,7 +114,7 @@ namespace Utilities
         }
 
         /// <summary>
-        /// Invokes method set for matching type.
+        ///     Invokes method set for matching type.
         /// </summary>
         /// <param name="type">Type to match against cases</param>
         /// <returns>Value of TResult</returns>
@@ -132,7 +132,7 @@ namespace Utilities
             return ExecuteFallback( type );
         }
 
-        private TResult ExecuteFallback( Type type = null)
+        private TResult ExecuteFallback( Type type = null )
         {
             if (_fallback == null)
             {

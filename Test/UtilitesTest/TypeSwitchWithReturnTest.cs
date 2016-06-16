@@ -1,70 +1,75 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Utilities;
 
 namespace UtilitiesTest
 {
-    [TestClass]
+    [TestFixture]
     public class TypeSwitchWithReturnTest
     {
-        private TypeSwitch<int> _switch;
-
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _switch = new TypeSwitch<int>();
         }
 
-        [TestMethod]
-        [ExpectedException( typeof( ArgumentNullException ) )]
-        public void ThrowsIfTypeIsSetWithNullAction()
-        {
-            _switch.Set( typeof( int ), null );
-        }
+        private TypeSwitch<int> _switch;
 
-        [TestMethod]
-        [ExpectedException( typeof( ArgumentException ) )]
-        public void ThrowsIfTypeIsAlreadySet()
-        {
-            _switch.Set( typeof( int ), () => 0 );
-            _switch.Set( typeof( int ), () => 0 );
-        }
-
-        [TestMethod]
+        [Test]
         public void ExecuteInvokesActionAssignedToType()
         {
-            _switch.Set( typeof( int ), () => 0 );
-            _switch.Set( typeof( string ), () => 1 );
+            _switch.Set( typeof(int), () => 0 );
+            _switch.Set( typeof(string), () => 1 );
 
-            var result = _switch.Execute( typeof( string ) );
+            var result = _switch.Execute( typeof(string) );
 
-            Assert.AreEqual<int>( 1, result );
+            Assert.AreEqual( 1, result );
         }
 
-        [TestMethod]
-        [ExpectedException( typeof( InvalidOperationException ) )]
-        public void ThrowsIfExecutedTypeIsNullAndNoFallbackSet()
-        {
-            _switch.Execute( null );
-        }
-
-        [TestMethod]
-        [ExpectedException( typeof( InvalidOperationException ) )]
-        public void ThrowsIfExecutedTypeIsNotSetAndNoFallbackSet()
-        {
-            _switch.Execute( typeof( bool ) );
-        }
-
-
-        [TestMethod]
+        [Test]
         public void ExecutesFallbackActionAssignedInConstructorWhenExecutedTypeNotFoundOrNull()
         {
             var swithWithFallback = new TypeSwitch<int>( () => 0 );
-            swithWithFallback.Set( typeof( int ), () => 1 );
+            swithWithFallback.Set( typeof(int), () => 1 );
 
-            var result = swithWithFallback.Execute( typeof( bool ) );
+            var result = swithWithFallback.Execute( typeof(bool) );
 
-            Assert.AreEqual<int>( 0, result );
+            Assert.AreEqual( 0, result );
+        }
+
+        [Test]
+        public void ThrowsIfExecutedTypeIsNotSetAndNoFallbackSet()
+        {
+            TestDelegate execute = () => _switch.Execute( typeof(bool) );
+
+            Assert.Throws<InvalidOperationException>( execute );
+        }
+
+        [Test]
+        public void ThrowsIfExecutedTypeIsNullAndNoFallbackSet()
+        {
+            TestDelegate setting = () => _switch.Execute( null );
+
+            Assert.Throws<InvalidOperationException>( setting );
+        }
+
+        [Test]
+        public void ThrowsIfTypeIsAlreadySet()
+        {
+            TestDelegate setting = () => _switch.Set( typeof(int), () => 0 );
+
+            setting.Invoke();
+
+            Assert.Throws<ArgumentException>( setting );
+        }
+
+        [Test]
+        public void ThrowsIfTypeIsSetWithNullAction()
+        {
+            TestDelegate setting = () => _switch.Set( typeof(int), null );
+            ;
+
+            Assert.Throws<ArgumentNullException>( setting );
         }
     }
 }
